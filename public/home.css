@@ -1,0 +1,61 @@
+* {
+    z-index: 2;
+    color: white;
+}
+
+#bodyClass {
+    content: "";
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: unset;
+    background-image: url("./rainbow-sunset-wallpaper-2560x1440_51.jpg") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+
+#bodyClass::after {
+    z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(100, 100, 100, 0.6);
+}
+
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+
+.navbar {
+    background-color: unset !important;
+    border-bottom: 1px solid wheat;
+}
+
+.navbar a,
+.navbar .container-fluid button span {
+    color: white !important;
+}
+
+.h1 {
+    font-size: 3em !important;
+
+}
+
+
+.btn:hover {
+    border-radius: 40px !important;
+
+}

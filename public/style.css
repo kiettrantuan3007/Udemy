@@ -1,3 +1,8 @@
+* {
+    font-family: 'Inter', sans-serif;
+
+}
+
 .dropdown-menu[data-bs-popper] {
     width: fit-content;
     right: 0;
