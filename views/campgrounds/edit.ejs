@@ -1,0 +1,70 @@
+<% layout('../views/boilerplate') -%>
+    <h1>ADD NEW CAMPGROUNDS</h1>
+    <form class="d-inline mb-5 needs-validation" enctype="multipart/form-data" novalidate action="/campgrounds/<%= foundCamp.id %>?_method=PATCH"
+        method="POST" >
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" required value="<%= foundCamp.title%>" id="title"
+                placeholder="Enter the title">
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" name="location" id="location" required class="form-control"
+                value="<%= foundCamp.location%>" placeholder="Enter the location">
+        </div>
+        <div class="mb-3">
+            <label for="formFileMultiple" class="form-label">Choose file to add more to campgrounds</label>
+            <input class="form-control" type="file" id="formFileMultiple" name="photoCamp" multiple>
+          </div>
+
+        <p>Check the checkbox for delete</p>
+          <div class="mb-3 d-flex flex-row flex-wrap">
+            <% foundCamp.image.forEach(function (element, index) { %>
+            <img src=<%= element.thumbnail %> class="img-thumbnail" style="
+                    width: 200px; height: 200px;
+                    object-fit: cover;
+
+                " alt="...">
+
+            <div class="form-check" style="position: relative; top: 10px; right: 30px;">
+                <input class="form-check-input" name="checkbox[]" type="checkbox" value="<%= element.filename %>" id="checkbox-<%= index %>">
+                <label class="form-check-label" for="checkbox-<%= index %>"></label>
+            </div>
+            <% }) %>
+          </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" name="price" id="price" value="<%= foundCamp.price%>" required class="form-control"
+                value="<%= foundCamp.price%>" placeholder="Enter the price">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea type="text" name="description" required id="description" value="<%= foundCamp.description%>"
+                class="form-control" placeholder="Enter the description"><%= foundCamp.description%></textarea>
+        </div>
+        <button type="submit" class="btn btn-danger">SUBMIT</button>
+    </form>
+    <a class="btn btn-primary" href="/campgrounds">Go back all campgrounds</a>
+
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>

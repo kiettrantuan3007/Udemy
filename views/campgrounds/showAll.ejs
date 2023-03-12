@@ -1,0 +1,31 @@
+<% layout('../views/boilerplate') -%>
+    <h1>All campgrounds</h1>
+    <div class="container-sm d-flex flex-row flex-wrap justify-content-around">
+        <% for (let campground of campgrounds){ %>
+            <div class="card m-3" style="width: 20rem;">
+                <img src="<%= campground.image[0].url%>" class="card-img-top img-thumbnail" alt="Image about the trip">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%=campground.title%>
+                    </h5>
+                    <p class="card-text">
+                        <%=campground.description%>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <%=campground.location%>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="/campgrounds/<%=campground.id%>/edit" class="card-link">Edit</a>
+                    <a href="/campgrounds/<%=campground.id%>" class="card-link">Show more</a>
+                </div>
+            </div>
+            <% } %>
+
+    </div>
+    <p>
+        <a class="btn btn-success" href="/campgrounds/add">Add campgrounds</a>
+        <a class="btn btn-primary" href="/">Back to home page</a>
+    </p>

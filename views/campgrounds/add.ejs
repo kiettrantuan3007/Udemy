@@ -1,0 +1,98 @@
+<% layout('../views/boilerplate') -%>
+<h1>ADD NEW CAMPGROUNDS</h1>
+<form action="/campgrounds/add" enctype="multipart/form-data" method="POST" class="needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" name="title" id="title" required placeholder="Enter the title">
+    <div class="invalid-feedback">
+      Please provide a name
+    </div>
+    <div class="valid-feedback">
+      Oke
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="location" class="form-label">Location</label>
+    <input type="text" name="location" id="location" class="form-control" required placeholder="Enter the location">
+  </div>
+
+  <div class="mb-3">
+    <label for="formFileMultiple" class="form-label">Choose multiple files...</label>
+    <input class="form-control" type="file" id="formFileMultiple" name="photoCamp" multiple>
+  </div>
+  <div class="mb-3">
+    <label for="price" class="form-label">Price</label>
+    <input type="text" name="price" id="price" class="form-control" required placeholder="Enter the price">
+  </div>
+  <div id="map" name="mapPosition"></div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea type="number" name="description" id="description" required class="form-control" placeholder="Enter the description"></textarea>
+  </div>
+  <input type="text" id="mapPosition" style="display: none;" name="mapPosition">
+  <button type="submit" class="btn btn-danger">SUBMIT</button>
+</form>
+<p style="margin-top: 15px;">
+
+  <a class="btn btn-primary" href="/campgrounds">Go back all campgrounds</a>
+</p>
+
+<script>
+  function initMap() {
+    const myLatlng = {
+      lat: -25.363,
+      lng: 131.044
+    };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: myLatlng,
+    });
+    // Create the initial InfoWindow.
+    let infoWindow = new google.maps.InfoWindow({
+      content: "Click the map to get Lat/Lng!",
+      position: myLatlng,
+    });
+
+    infoWindow.open(map);
+    // Configure the click listener.
+    map.addListener("click", (mapsMouseEvent) => {
+      // Close the current InfoWindow.
+      infoWindow.close();
+      // Create a new InfoWindow.
+      console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2))
+      document.querySelector("#mapPosition").value = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+      infoWindow = new google.maps.InfoWindow({
+        position: mapsMouseEvent.latLng,
+      });
+      infoWindow.setContent(
+        JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+      );
+      infoWindow.open(map);
+    });
+  }
+
+  window.initMap = initMap;
+</script>
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>

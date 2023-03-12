@@ -1,0 +1,177 @@
+<% layout('../views/boilerplate') -%>
+
+<link rel="stylesheet" href="/static/starRating.css">
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <% campground.image.forEach((element, index)=>{ %>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" <% if (index=='0' ) { %> class="active" aria-current="true" <% } %> aria-label="Slide <%= index+1 %>"></button>
+          <% }) %>
+        </div>
+
+        <div class="carousel-inner">
+          <% campground.image.forEach(function (element, index) { %>
+          <div class="carousel-item <%= (index=='0')?" active":"" %>">
+            <img src="<%= element.url %>" class="d-block w-100" alt="Image for the camp">
+          </div>
+          <% }) %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <p style="margin-top: 20px">
+      <h3>Xem vị trí Google Map</h3>
+      <div id="map" name="mapPosition"></div>
+      </p>
+    </div>
+    <div class="col">
+      <h1>
+        <%= campground.title %>
+      </h1>
+      <p class="fw-lighter">
+        <%= campground.location %> - <b>Submitted by: <%= authors.username %></b>
+      </p>
+      <p>
+        <%= campground.description %>
+      </p>
+
+      <% if (currentUser) if (currentUser.id==authors._id){ %>
+      <a href="/campgrounds/<%= campground.id%>/edit" class="btn btn-warning">Edit</a>
+      <form class="d-inline" method="POST" action="/campgrounds/<%= campground.id%>?_method=DELETE">
+        <button class="btn btn-danger" type="submit">Delete</button>
+      </form>
+      <% } %>
+      <a href="/campgrounds" class="btn btn-primary">Back to all campgrounds</a>
+
+
+      <% if (currentUser){ %>
+
+
+      <div class="review-section">
+        <hr>
+        <form class="needs-validation" novalidate action="/campgrounds/<%= campground.id %>/review/add" method="POST">
+          <h1>Add a review</h1>
+          <div class="mb-3">
+            <label for="body" class="form-label">Title</label>
+            <input type="text" class="form-control" required name="title" id="title">
+          </div>
+          <div class="mb-3">
+            <label for="body" class="form-label">Body</label>
+            <input type="text" class="form-control" required name="body" id="body">
+          </div>
+          <div class="mb-3">
+            <fieldset class="starability-basic">
+              <legend> Rating:</legend>
+              <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="rating" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="rating" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="rating" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="rating" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="rating" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <hr>
+        </form>
+        <% } %>
+
+        <ul class="list-group">
+          <h2>All comments</h2>
+          <% if (campground.review.length==0) {%>
+          <p>Hmm, no comment yet...</p>
+          <% } %>
+          <% for (let comment of campground.review) {%>
+          <li class="list-group-item">
+            <p>
+              <b>
+                <%= comment.title %>
+              </b> -
+              <b>
+                <%= comment.name %>
+              </b> - <%= comment.date %>
+            </p>
+            <p class="starability-result" data-rating="<%= comment.rating %>">
+              Rated: <%= comment.rating %> stars
+            </p>
+            <p>
+              <%= comment.body %>
+            </p>
+            <% if (currentUser) if (currentUser.id==comment.author){ %>
+            <form action="/campgrounds/<%= campground.id %>/review/<%= comment.id %>?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-danger">Delete
+                comment</button>
+            </form>
+            <% } %>
+          </li>
+          <% } %>
+        </ul>
+
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+
+</div>
+
+<script>
+  function initMap() {
+    const myLatLng = {
+      lat: <%= campground.mapPosition.lat %>,
+      lng: <%= campground.mapPosition.lng %>
+    };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 9,
+      center: myLatLng,
+    });
+
+    new google.maps.Marker({
+      position: myLatLng,
+      map,
+      title: "<%= campground.title %>",
+    });
+  }
+
+  window.initMap = initMap;
+</script>
+
+<script>
+  (function() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>

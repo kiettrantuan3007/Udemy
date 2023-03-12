@@ -1,0 +1,12 @@
+.dropdown-menu[data-bs-popper] {
+    width: fit-content;
+    right: 0;
+    left: unset;
+}
+
+@media only screen and (max-width: 992px) {
+    .dropdown-menu[data-bs-popper] {
+        right: unset;
+        left: 0 !important;
+    }
+}
