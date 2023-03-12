@@ -101,7 +101,8 @@ app.all("*", (err, req, res, next) => {
 app.use((err, req, res, next) => {
     res.render("error", { error: err });
 })
+const port = process.env.PORT || 3000
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log("SEVER OPEN AT PORT 3000")
 })
