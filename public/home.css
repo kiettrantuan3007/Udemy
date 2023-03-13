@@ -1,5 +1,5 @@
 * {
-    z-index: 2;
+    /* z-index: 2; */
     color: white;
 }
 
@@ -17,15 +17,15 @@
     background-size: cover !important;
 }
 
-#bodyClass::after {
-    z-index: 1;
+#bodyClass::before {
+    z-index: -1;
     content: "";
     position: absolute;
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-color: rgba(100, 100, 100, 0.6);
+    background-color: rgba(20, 20, 20, 0.6);
 }
 
 .container-fluid {
@@ -44,9 +44,19 @@
     border-bottom: 1px solid wheat;
 }
 
+.navbar ul,
+.navbar ul a,
+#navbarDropdown {
+    text-align: left;
+}
+
 .navbar a,
 .navbar .container-fluid button span {
     color: white !important;
+}
+
+.dropdown-menu li a {
+    color: black !important;
 }
 
 .h1 {
@@ -54,8 +64,13 @@
 
 }
 
+.btn {
+    transition: 0.6s ease;
+
+
+}
+
 
 .btn:hover {
     border-radius: 40px !important;
-
 }
