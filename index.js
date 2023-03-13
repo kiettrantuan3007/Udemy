@@ -81,6 +81,7 @@ app.use((req, res, next) => {
     res.locals.returnURL = req.session.returnUrl;
     res.locals.lastURL = req.session.lastURL;
     res.locals.currentUser = req.user;
+    res.locals.currentURL = req.originalUrl;
     res.locals.success = req.flash("success");
     res.locals.errorFlash = req.flash("error");
     next();

@@ -10,6 +10,9 @@ ImageSchema.virtual("thumbnail").get(function () {
     return this.url.replace("/upload", "/upload/w_200");
 })
 
+ImageSchema.virtual("card").get(function () {
+    return this.url.replace("/upload", "/upload/w_400");
+})
 
 const CampgroundsSchema = new mongoose.Schema({
     title: {

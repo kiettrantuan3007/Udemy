@@ -13,10 +13,13 @@ router.get('/', catchAsync(campgroundController.renderAllCamp))
 router.route("/add")
     .get(isAuthenticated, campgroundController.renderAddCampForm)
     .post(isAuthenticated, upload.array('photoCamp'), catchAsync(campgroundController.postAddCamp))
+router.route("/search")
+    .get(catchAsync(campgroundController.searchCamp))
 router.route("/:id")
     .get(catchAsync(campgroundController.renderOneCamp))
     .delete(isAuthenticated, isOwner, catchAsync(campgroundController.deleteCamp))
     .patch(isAuthenticated, upload.array('photoCamp'), isOwner, catchAsync(campgroundController.patchEditCamp))
+
 
 
 router.get("/:id/edit", isAuthenticated, isOwner, catchAsync(campgroundController.renderEditCamp))

@@ -7,8 +7,27 @@ module.exports.renderAddCampForm = (req, res) => {
 }
 
 module.exports.renderAllCamp = async (req, res) => {
-    const campgrounds = await Campgrounds.find({})
-    res.render("campgrounds/showAll", { campgrounds })
+
+    const query = req.query;
+
+    const allCamp = await Campgrounds.find({})
+    const maxCamp = allCamp.length;
+    const page = query.page || 1;
+    const numberOfPages = Math.floor(maxCamp / 9) + 1
+    if ((page - 1) * 9 > maxCamp) {
+        req.flash("error", "We dont have that much Campgroud")
+        return res.redirect("/campgrounds?page=1")
+    }
+    let searchStat = {};
+    if (query.title) {
+        searchStat.title = parseInt(query.title);
+    }
+    if (query.price) {
+        searchStat.price = parseInt(query.price);
+    }
+
+    const campgrounds = await Campgrounds.find({}, null, { skip: page * 9 - 9, limit: 9 }).sort(searchStat);
+    res.render("campgrounds/showAll", { campgrounds, numberOfPages, currentPage: page, numberOfCamp: maxCamp })
 }
 
 module.exports.renderOneCamp = async (req, res) => {
@@ -92,4 +111,11 @@ module.exports.patchEditCamp = async (req, res) => {
     await foundCamp.save()
     console.log(foundCamp)
     res.redirect("/")
+}
+
+module.exports.searchCamp = async (req, res) => {
+    const dataFind = req.query;
+    const foundCamp = await Campgrounds.find({ dataFind });
+    console.log(dataFind)
+    res.send(foundCamp)
 }

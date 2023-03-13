@@ -1,7 +1,57 @@
+h1 {
+    text-align: center !important;
+}
+
+.col-2 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: column !important;
+    justify-content: top;
+}
+
+.col-10 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    justify-content: center;
+}
+
+.form-check {
+    margin: 8px !important
+}
+
+.list-group {
+    border: 1px solid grey;
+    margin: 10px;
+}
+
+.btn {
+    margin: 10px !important;
+}
+
+#pageNavigator {
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (max-width: 900px) {
 
     .card,
     .m-3 {
         width: 80% !important;
     }
+
+    .row {
+        justify-content: center !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-2 {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: unset;
+    }
+
+
 }

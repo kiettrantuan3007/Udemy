@@ -1,29 +1,138 @@
 <% layout('../views/boilerplate') -%>
 <link rel="stylesheet" href="/static/showAll.css">
 
-<h1>All campgrounds</h1>
-<div class="container d-flex flex-row flex-wrap justify-content-around">
-  <% for (let campground of campgrounds){ %>
-  <div class="card m-3" style="width: 20rem">
-    <img src="<%= campground.image[0].url%>" class="card-img-top img-thumbnail" alt="Image about the trip">
-    <div class="card-body">
-      <h5 class="card-title">
-        <%=campground.title%>
-      </h5>
-      <p class="card-text">
-        <%=campground.description%>
-      </p>
+<h1>We have <%= numberOfCamp %> all around the world!</h1>
+<div class="row">
+  <div class="col-2">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active disabled" aria-disabled="true" aria-current="true">
+        Sort by:
+      </a>
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="checkboxCriteria" id="title" checked>
+        <label class="form-check-label" for="title">
+          Title
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="checkboxCriteria" id="location">
+        <label class="form-check-label" for="location">
+          Location
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="checkboxCriteria" id="price">
+        <label class="form-check-label" for="price">
+          Price
+        </label>
+      </div>
+      <!-- <a href="/campgrounds?title=1" class="list-group-item list-group-item-action">Title name</a>
+      <a href="/campgrounds?price=1" class="list-group-item list-group-item-action">Price</a>
+      <a href="/campgrounds?location=1" class="list-group-item list-group-item-action">Location</a> -->
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <%=campground.location%>
-      </li>
-    </ul>
-    <div class="card-body">
-      <a href="/campgrounds/<%=campground.id%>/edit" class="card-link">Edit</a>
-      <a href="/campgrounds/<%=campground.id%>" class="card-link">Show more</a>
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active disabled" aria-disabled="true" aria-current="true">
+        Ascending or Descending:
+      </a>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="Ascending" checked>
+        <label class="form-check-label" for="flexRadioDefault1">
+          Ascending
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="Descending">
+        <label class="form-check-label" for="flexRadioDefault2">
+          Descending
+        </label>
+      </div>
     </div>
+    <button type="button" class="btn btn-primary" id="search">Sort</button>
   </div>
-  <% } %>
+  <div class="col-10">
+    <% for (let campground of campgrounds){ %>
+    <div class="card m-3" style="width: 20rem">
+      <img src="<%= campground.image[0].card%>" class="card-img-top img-thumbnail" alt="Image about the trip">
+      <div class="card-body">
+        <h5 class="card-title">
+          <%=campground.title%>
+        </h5>
+        <p class="card-text">
+          <%=campground.description%>
+        </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <%=campground.location%> - $<%=campground.price%>
+        </li>
+      </ul>
+      <div class="card-body">
+        <a href="/campgrounds/<%=campground.id%>/edit" class="card-link">Edit</a>
+        <a href="/campgrounds/<%=campground.id%>" class="card-link">Show more</a>
+      </div>
+    </div>
+    <% } %>
+
+  </div>
 
 </div>
+<nav aria-label="pageNavigator" id="pageNavigator">
+  <ul class="pagination">
+    <li class="page-item previous">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    <% for (let i = 1;i<=numberOfPages;i++){ %>
+    <li class="page-item <%= (currentPage==i)?'active':"" %>">
+      <a class="page-link" href="" id="page-<%= i %>"><%= i %></a>
+    </li>
+    <% } %>
+
+
+    <li class="page-item next">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
+
+
+<script>
+  document.querySelector("#search").addEventListener("click", () => {
+    const upOrDown = (document.querySelector('#Ascending').checked) ? 1 : -1;
+    console.log(upOrDown)
+
+    const criteria = document.querySelectorAll('input[name="checkboxCriteria"]');
+    for (input of criteria) {
+      if (input.checked) {
+        const redirect = input.id
+      }
+    }
+    window.location.replace(`/campgrounds?${input.id}=${upOrDown}`)
+  })
+  const url = new URL(window.location.href);
+  const searchParams = url.searchParams;
+  const currentPage = parseInt(searchParams.get('page'));
+  if (currentPage == 1) {
+    document.querySelector(".previous").classList.add("disabled");
+  }
+  if (currentPage == <%= numberOfPages%>) {
+    document.querySelector(".next").classList.add("disabled");
+
+  }
+  const allPageLink = document.querySelectorAll(".page-item > .page-link")
+  for (pageLink of allPageLink) {
+
+    if (pageLink.innerText == "Next") {
+      searchParams.set('page', currentPage + 1);
+      pageLink.href = "/campgrounds?" + searchParams.toString();
+      continue;
+    }
+    if (pageLink.innerText == "Previous") {
+      searchParams.set('page', currentPage - 1);
+      pageLink.href = "/campgrounds?" + searchParams.toString();
+      continue;
+    }
+    searchParams.set('page', pageLink.innerText)
+    pageLink.href = "/campgrounds?" + searchParams.toString();
+  }
+</script>
