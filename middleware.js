@@ -42,8 +42,6 @@ module.exports.isReviewCreater = async function (req, res, next) {
 module.exports.storeLastURL = function (req, res, next) {
     if (req.originalUrl == "/user/login") return next();
     if (req.originalUrl.includes(".")) return next();
-    console.log(req.originalUrl)
     req.session.lastURL = req.originalUrl;
-    console.log("Req.ression.lastURL: ", req.session.lastURL)
     next()
 }
