@@ -1,7 +1,8 @@
 <% layout('../views/boilerplate') -%>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAP_API %>&callback=initMap&v=weekly" defer></script>
 <link rel="stylesheet" href="/static/add.css">
 <link rel="stylesheet" href="/static/edit.css">
-<h1>ADD NEW CAMPGROUNDS</h1>
+<h1>Edit <%= foundCamp.title%> YelpCamp</h1>
 <form class="d-inline mb-5 needs-validation" enctype="multipart/form-data" novalidate action="/campgrounds/<%= foundCamp.id %>?_method=PATCH" method="POST">
   <div class="row">
     <div class="col">
@@ -45,7 +46,7 @@
 
       <div id="map" name="mapPosition"></div>
     </div>
-    <div class="mb-3 submit-container"><button type="submit" class="btn submit btn-danger">SUBMIT</button></div>
+    <div class="mb-3 submit-container"><button type="submit" class="btn submit btn-danger">Edit!</button></div>
   </div>
 
 

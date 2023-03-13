@@ -11,7 +11,7 @@
     top: 0;
     left: 0;
     background-color: unset;
-    background-image: url("./rainbow-sunset-wallpaper-2560x1440_51.jpg") !important;
+    background-image: url("./background.jpg") !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
@@ -26,7 +26,7 @@
     bottom: 0px;
     left: 0px;
     height: 100%;
-    background-color: rgba(20, 20, 20, 0.6);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .container {

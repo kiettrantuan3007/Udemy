@@ -53,7 +53,6 @@ module.exports.postAddCamp = async (req, res, next) => {
 
     if (req.body.mapPosition == "") {
         const apiKey = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataSearchPosition}&key=${process.env.GOOGLE_MAP_API}`
-        console.log(apiKey)
         await fetch(apiKey)
             .then((response) => response.json())
             .then((jsonResponse) => {
@@ -76,7 +75,6 @@ module.exports.deleteCamp = async (req, res) => {
     const { id } = req.params;
     const foundCampDelete = await Campgrounds.findById(id);
     foundCampDelete.image.forEach(async (element) => {
-        console.log(element.filename)
         await cloudinary.uploader.destroy(element.filename);
     })
     await Campgrounds.findByIdAndDelete(id);
@@ -109,13 +107,11 @@ module.exports.patchEditCamp = async (req, res) => {
         await cloudinary.uploader.destroy(element);
     })
     await foundCamp.save()
-    console.log(foundCamp)
     res.redirect("/")
 }
 
 module.exports.searchCamp = async (req, res) => {
     const dataFind = req.query;
     const foundCamp = await Campgrounds.find({ dataFind });
-    console.log(dataFind)
     res.send(foundCamp)
 }

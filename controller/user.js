@@ -9,7 +9,6 @@ module.exports.renderLoginForm = async (req, res) => {
 }
 
 module.exports.postLogin = async (req, res) => {
-    console.log(res.locals.returnURL)
     const returnURL = res.locals.lastURL || "/campgrounds";
     res.redirect(returnURL);
 }
