@@ -1,14 +1,15 @@
 <% layout('../views/boilerplate') -%>
-
+<link rel="stylesheet" href="/static/show.css">
 <link rel="stylesheet" href="/static/starRating.css">
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col">
-
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <% campground.image.forEach((element, index)=>{ %>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" <% if (index=='0' ) { %> class="active" aria-current="true" <% } %> aria-label="Slide <%= index+1 %>"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" <% if
+                (index=='0' ) { %> class="active" aria-current="true" <% } %> aria-label="Slide <%= index+1 %>
+                    "></button>
           <% }) %>
         </div>
 
@@ -28,10 +29,6 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
-      <p style="margin-top: 20px">
-      <h3>Xem vị trí Google Map</h3>
-      <div id="map" name="mapPosition"></div>
-      </p>
     </div>
     <div class="col">
       <h1>
@@ -43,17 +40,21 @@
       <p>
         <%= campground.description %>
       </p>
-
       <% if (currentUser) if (currentUser.id==authors._id){ %>
-      <a href="/campgrounds/<%= campground.id%>/edit" class="btn btn-warning">Edit</a>
+      <h2>Modify the campground? </h2>
+      <a href="/campgrounds/<%= campground.id%>/edit" class="btn btn-warning">Edit this camp</a>
       <form class="d-inline" method="POST" action="/campgrounds/<%= campground.id%>?_method=DELETE">
-        <button class="btn btn-danger" type="submit">Delete</button>
+        <button class="btn btn-danger" type="submit">Delete this camp</button>
       </form>
       <% } %>
-      <a href="/campgrounds" class="btn btn-primary">Back to all campgrounds</a>
-
-
+      <div class="map-desktop" style="margin-top: 20px">
+        <h3>See location on Google Map</h3>
+        <div id="map" name="mapPosition"></div>
+      </div>
       <% if (currentUser){ %>
+
+
+
 
 
       <div class="review-section">
@@ -90,10 +91,10 @@
         </form>
         <% } %>
 
-        <ul class="list-group">
+        <ul class="list-group" style="margin-top: 20px;">
           <h2>All comments</h2>
           <% if (campground.review.length==0) {%>
-          <p>Hmm, no comment yet...</p>
+          <p>Hmm, no comment yet... - Login to post a comment</p>
           <% } %>
           <% for (let comment of campground.review) {%>
           <li class="list-group-item">
@@ -122,15 +123,8 @@
         </ul>
 
       </div>
-
-
     </div>
-
-
-
-
   </div>
-
 </div>
 
 <script>
@@ -140,9 +134,10 @@
       lng: <%= campground.mapPosition.lng %>
     };
     const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 9,
+      zoom: 5,
       center: myLatLng,
     });
+
 
     new google.maps.Marker({
       position: myLatLng,

@@ -1,70 +1,114 @@
 <% layout('../views/boilerplate') -%>
-    <h1>ADD NEW CAMPGROUNDS</h1>
-    <form class="d-inline mb-5 needs-validation" enctype="multipart/form-data" novalidate action="/campgrounds/<%= foundCamp.id %>?_method=PATCH"
-        method="POST" >
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" name="title" required value="<%= foundCamp.title%>" id="title"
-                placeholder="Enter the title">
+<link rel="stylesheet" href="/static/add.css">
+<link rel="stylesheet" href="/static/edit.css">
+<h1>ADD NEW CAMPGROUNDS</h1>
+<form class="d-inline mb-5 needs-validation" enctype="multipart/form-data" novalidate action="/campgrounds/<%= foundCamp.id %>?_method=PATCH" method="POST">
+  <div class="row">
+    <div class="col">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" name="title" required value="<%= foundCamp.title%>" id="title" placeholder="Enter the title">
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" name="location" id="location" required class="form-control" value="<%= foundCamp.location%>" placeholder="Enter the location">
+      </div>
+      <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Choose file to add more to campgrounds</label>
+        <input class="form-control" type="file" id="formFileMultiple" name="photoCamp" multiple>
+      </div>
+
+      <p>Check the checkbox for delete</p>
+      <div class="edit-img mb-3 d-flex flex-row flex-wrap">
+        <% foundCamp.image.forEach(function (element, index) { %>
+        <img src=<%= element.thumbnail %> class="img-thumbnail" alt="...">
+
+        <div class="form-check" style="position: relative; top: 10px; right: 30px;">
+          <input class="form-check-input" name="checkbox[]" type="checkbox" value="<%= element.filename %>" id="checkbox-<%= index %>">
+          <label class="form-check-label" for="checkbox-<%= index %>"></label>
         </div>
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" name="location" id="location" required class="form-control"
-                value="<%= foundCamp.location%>" placeholder="Enter the location">
-        </div>
-        <div class="mb-3">
-            <label for="formFileMultiple" class="form-label">Choose file to add more to campgrounds</label>
-            <input class="form-control" type="file" id="formFileMultiple" name="photoCamp" multiple>
-          </div>
+        <% }) %>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" name="price" id="price" value="<%= foundCamp.price%>" required class="form-control" value="<%= foundCamp.price%>" placeholder="Enter the price">
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea rows="4" type="text" name="description" required id="description" value="<%= foundCamp.description%>" class="form-control" placeholder="Enter the description"><%= foundCamp.description%></textarea>
+      </div>
+    </div>
+    <div class="col">
+      <p>Choose location directly on the map, if you dont choose, we will choose automatically by Google Map Search. If you want to reset the map choosen, click this button
+      <p><button id="reset" type="button" class="btn btn-warning">RESET</button></p>
+      </p>
 
-        <p>Check the checkbox for delete</p>
-          <div class="mb-3 d-flex flex-row flex-wrap">
-            <% foundCamp.image.forEach(function (element, index) { %>
-            <img src=<%= element.thumbnail %> class="img-thumbnail" style="
-                    width: 200px; height: 200px;
-                    object-fit: cover;
-
-                " alt="...">
-
-            <div class="form-check" style="position: relative; top: 10px; right: 30px;">
-                <input class="form-check-input" name="checkbox[]" type="checkbox" value="<%= element.filename %>" id="checkbox-<%= index %>">
-                <label class="form-check-label" for="checkbox-<%= index %>"></label>
-            </div>
-            <% }) %>
-          </div>
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" name="price" id="price" value="<%= foundCamp.price%>" required class="form-control"
-                value="<%= foundCamp.price%>" placeholder="Enter the price">
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea type="text" name="description" required id="description" value="<%= foundCamp.description%>"
-                class="form-control" placeholder="Enter the description"><%= foundCamp.description%></textarea>
-        </div>
-        <button type="submit" class="btn btn-danger">SUBMIT</button>
-    </form>
-    <a class="btn btn-primary" href="/campgrounds">Go back all campgrounds</a>
+      <div id="map" name="mapPosition"></div>
+    </div>
+    <div class="mb-3 submit-container"><button type="submit" class="btn submit btn-danger">SUBMIT</button></div>
+  </div>
 
 
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
+</form>
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
+<script>
+  function initMap() {
+    const myLatlng = {
+      lat: <%= foundCamp.mapPosition.lat%>,
+      lng: <%= foundCamp.mapPosition.lng%>
+    };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: myLatlng,
+    });
+    // Create the initial InfoWindow.
+    let infoWindow = new google.maps.InfoWindow({
+      content: "Click the map to get Lat/Lng!",
+      position: myLatlng,
+    });
 
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
+    infoWindow.open(map);
+    document.querySelector("#reset").addEventListener("click", () => {
+      document.querySelector("#mapPosition").value = "";
+      infoWindow.close()
+    })
+    // Configure the click listener.
+    map.addListener("click", (mapsMouseEvent) => {
+      // Close the current InfoWindow.
+      infoWindow.close();
+      // Create a new InfoWindow.
+      console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2))
+      document.querySelector("#mapPosition").value = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+      infoWindow = new google.maps.InfoWindow({
+        position: mapsMouseEvent.latLng,
+      });
+      infoWindow.setContent(
+        JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+      );
+      infoWindow.open(map);
+    });
+  }
 
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
+  window.initMap = initMap;
+</script>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>

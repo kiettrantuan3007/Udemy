@@ -1,0 +1,15 @@
+.edit-img {
+    height: fit-content;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    flex-wrap: nowrap !important;
+}
+
+#map {
+    height: 500px
+}
+
+.img-thumbnail {
+    height: 200px;
+    width: 200px;
+}

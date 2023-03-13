@@ -1,20 +1,26 @@
 <% layout('boilerplate') -%>
+<link rel="stylesheet" href="/static/login.css">
 
-    <form method="POST" action="/user/register">
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" aria-describedby="username" name="username">
-            <div id="usernameHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
+<form method="POST" action="/user/register">
+  <h1>Welcome you to YelpCamp</h1>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Username</label>
+    <input type="text" class="form-control" id="username" aria-describedby="username" name="username">
+    <!-- <div id="usernameHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+  </div>
 
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+  document.querySelector(".navbar").classList.replace("navbar-light", "navbar-dark")
+</script>

@@ -1,0 +1,37 @@
+body {
+    background-image: url("./rainbow-sunset-wallpaper-2560x1440_51.jpg");
+}
+
+.navbar {
+    border-bottom: 1px solid wheat;
+}
+
+.container {
+    margin: auto;
+    border: 1px solid white;
+    max-width: 400px;
+    min-height: 70%;
+    background-color: aliceblue;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 0.75rem wheat);
+    padding: 35px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+
+}
+
+.container-sm {
+    padding: 0;
+}
+
+form .btn {
+    width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+    .container {
+        max-width: 70%;
+        min-width: none;
+    }
+}

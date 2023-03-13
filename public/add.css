@@ -1,0 +1,29 @@
+h1 {
+    text-align: center;
+}
+
+
+
+form .submit {
+    min-width: 30%;
+    width: 400px;
+    margin-top: 20px;
+}
+
+.submit-container {
+    display: flex;
+
+    justify-content: center;
+}
+
+@media screen and (max-width: 950px) {
+    .row {
+        flex-direction: column;
+    }
+
+    form .submit {
+        min-width: 30%;
+        width: 100%;
+        margin-top: 20px;
+    }
+}

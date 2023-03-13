@@ -74,7 +74,7 @@ app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
-
+app.use(storeLastURL);
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
@@ -90,7 +90,7 @@ store.on('error', function (error) {
     console.log(error)
 });
 
-app.use(storeLastURL);
+
 app.use("/campgrounds", campground);
 app.use("/campgrounds/:id/review", review);
 app.use("/user", userRoute)

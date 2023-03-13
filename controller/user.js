@@ -9,7 +9,8 @@ module.exports.renderLoginForm = async (req, res) => {
 }
 
 module.exports.postLogin = async (req, res) => {
-    const returnURL = res.locals.returnURL || "/campgrounds";
+    console.log(res.locals.returnURL)
+    const returnURL = res.locals.lastURL || "/campgrounds";
     res.redirect(returnURL);
 }
 

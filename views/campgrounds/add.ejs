@@ -1,42 +1,53 @@
 <% layout('../views/boilerplate') -%>
-<h1>ADD NEW CAMPGROUNDS</h1>
+<link rel="stylesheet" href="/static/add.css">
+<h1>ADD A NEW CAMPGROUNDS</h1>
 <form action="/campgrounds/add" enctype="multipart/form-data" method="POST" class="needs-validation" novalidate>
-  <div class="mb-3">
-    <label for="title" class="form-label">Title</label>
-    <input type="text" class="form-control" name="title" id="title" required placeholder="Enter the title">
-    <div class="invalid-feedback">
-      Please provide a name
-    </div>
-    <div class="valid-feedback">
-      Oke
-    </div>
-  </div>
+  <div class="row">
+    <div class="col">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" name="title" id="title" required placeholder="Enter the title">
+        <div class="invalid-feedback">
+          Please provide a name
+        </div>
+        <div class="valid-feedback">
+          Oke
+        </div>
+      </div>
 
-  <div class="mb-3">
-    <label for="location" class="form-label">Location</label>
-    <input type="text" name="location" id="location" class="form-control" required placeholder="Enter the location">
-  </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" name="location" id="location" class="form-control" required placeholder="Enter the location">
+      </div>
 
-  <div class="mb-3">
-    <label for="formFileMultiple" class="form-label">Choose multiple files...</label>
-    <input class="form-control" type="file" id="formFileMultiple" name="photoCamp" multiple>
+      <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Choose multiple files...</label>
+        <input class="form-control" type="file" id="formFileMultiple" name="photoCamp" multiple>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="text" name="price" id="price" class="form-control" required placeholder="Enter the price">
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea rows="5" type="number" name="description" id="description" required class="form-control" placeholder="Enter the description"></textarea>
+      </div>
+
+
+    </div>
+    <div class="col">
+      <p>Choose location directly on the map, if you dont choose, we will choose automatically by Google Map Search. If you want to reset the map choosen, click this button
+      <p><button id="reset" type="button" class="btn btn-warning">RESET</button></p>
+      </p>
+
+      <div id="map" name="mapPosition"></div>
+    </div>
+    <div class="mb-3 submit-container"><button type="submit" class="btn submit btn-danger">SUBMIT</button></div>
+    <input type="text" id="mapPosition" style="display: none;" name="mapPosition">
+
   </div>
-  <div class="mb-3">
-    <label for="price" class="form-label">Price</label>
-    <input type="text" name="price" id="price" class="form-control" required placeholder="Enter the price">
-  </div>
-  <div id="map" name="mapPosition"></div>
-  <div class="mb-3">
-    <label for="description" class="form-label">Description</label>
-    <textarea type="number" name="description" id="description" required class="form-control" placeholder="Enter the description"></textarea>
-  </div>
-  <input type="text" id="mapPosition" style="display: none;" name="mapPosition">
-  <button type="submit" class="btn btn-danger">SUBMIT</button>
 </form>
-<p style="margin-top: 15px;">
 
-  <a class="btn btn-primary" href="/campgrounds">Go back all campgrounds</a>
-</p>
 
 <script>
   function initMap() {
@@ -55,6 +66,10 @@
     });
 
     infoWindow.open(map);
+    document.querySelector("#reset").addEventListener("click", () => {
+      document.querySelector("#mapPosition").value = "";
+      infoWindow.close()
+    })
     // Configure the click listener.
     map.addListener("click", (mapsMouseEvent) => {
       // Close the current InfoWindow.
@@ -95,4 +110,8 @@
       }, false)
     })
   })()
+</script>
+
+<script>
+
 </script>

@@ -23,7 +23,7 @@ module.exports.renderOneCamp = async (req, res) => {
 }
 
 module.exports.postAddCamp = async (req, res, next) => {
-    console.log(req.body)
+
     const campImage = req.files.map((element) => ({
         url: element.path,
         filename: element.filename
@@ -31,16 +31,14 @@ module.exports.postAddCamp = async (req, res, next) => {
     const data = req.body;
     data.image = campImage;
     const dataSearchPosition = req.body.location.replaceAll(" ", "%20")
-    console.log(dataSearchPosition)
-    console.log(process.env.GOOGLE_MAP_API)
+
     if (req.body.mapPosition == "") {
         const apiKey = `https://maps.googleapis.com/maps/api/geocode/json?address=${dataSearchPosition}&key=${process.env.GOOGLE_MAP_API}`
         console.log(apiKey)
         await fetch(apiKey)
             .then((response) => response.json())
             .then((jsonResponse) => {
-                console.log(jsonResponse)
-                console.log(jsonResponse.results[0].geometry.location)
+
                 data.mapPosition = jsonResponse.results[0].geometry.location
             });
     }
@@ -49,7 +47,7 @@ module.exports.postAddCamp = async (req, res, next) => {
     //     .validate(req.body).error) throw new expressError(joiCampSchema
     //         .validate(req.body).error.details[0].message, "404");
     data.author = res.locals.currentUser;
-    console.log(data)
+
     await Campgrounds.insertMany([data]);
     req.flash('success', 'Added successfully');
     res.redirect("/campgrounds");
