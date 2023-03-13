@@ -28,13 +28,19 @@ const { storeLastURL, isAuthenticated } = require("./middleware")
 
 const mongoAtlasConnect = `mongodb+srv://kiettrantuan3007:${process.env.PASS_MONGODB}@cluster0.69bswcq.mongodb.net/?retryWrites=true&w=majority`
 
+
+
+mongoose.connect(mongoAtlasConnect, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000
+})
 var store = new MongoDBStore({
     // uri: 'mongodb://127.0.0.1:27017/test',
     uri: mongoAtlasConnect,
+    databaseName: 'connect_mongodb_session_test',
     collection: 'mySessions'
 });
-
-mongoose.connect(mongoAtlasConnect)
 // mongoose.connect('mongodb://127.0.0.1:27017/test')
 
 passport.use(User.createStrategy());
@@ -52,7 +58,7 @@ app.use(express.urlencoded())
 app.use(methodOverride('X-Method-Override'))
 app.use(methodOverride('_method'))
 
-app.use(require('express-session')({
+app.use(session({
     secret: 'This is a secret',
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
