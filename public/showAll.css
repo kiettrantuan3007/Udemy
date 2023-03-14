@@ -38,7 +38,7 @@ h1 {
 
     .card,
     .m-3 {
-        width: 80% !important;
+        width: 100% !important;
     }
 
     .row {
@@ -51,6 +51,11 @@ h1 {
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         width: unset;
+    }
+
+    .col-10 {
+        width: 100% !important;
+        padding: 0 !important;
     }
 
 
