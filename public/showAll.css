@@ -2,6 +2,10 @@ h1 {
     text-align: center !important;
 }
 
+.m-3 {
+    width: 20rem !important;
+}
+
 .col-2 {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -24,6 +28,7 @@ h1 {
     border: 1px solid grey;
     margin: 10px;
 }
+
 
 .row .btn {
     margin: 10px !important;

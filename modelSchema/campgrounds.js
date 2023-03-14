@@ -14,6 +14,14 @@ ImageSchema.virtual("card").get(function () {
     return this.url.replace("/upload", "/upload/w_400");
 })
 
+ImageSchema.virtual("getAVIF").get(function () {
+    return this.url.replace("/upload", "/upload/f_auto");
+})
+
+ImageSchema.virtual("cardAndGetAVIF").get(function () {
+    return this.url.replace("/upload", "/upload/w_400/f_auto");
+})
+
 const CampgroundsSchema = new mongoose.Schema({
     title: {
         type: String,

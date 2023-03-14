@@ -52,8 +52,8 @@
   </div>
   <div class="col-10">
     <% for (let campground of campgrounds){ %>
-    <div class="card m-3" style="width: 20rem">
-      <img src="<%= campground.image[0].card%>" class="card-img-top img-thumbnail" alt="Image about the trip">
+    <div class="card m-3">
+      <img src="<%= campground.image[0].cardAndGetAVIF%>" class="card-img-top img-thumbnail" alt="Image about the trip">
       <div class="card-body">
         <h5 class="card-title">
           <%=campground.title%>
